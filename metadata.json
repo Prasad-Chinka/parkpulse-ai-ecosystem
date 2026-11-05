@@ -1,0 +1,6 @@
+{
+  "name": "ParkPulse AI – Intelligent Parking Management System",
+  "description": "AI-powered intelligent parking management system with real-time slot allocation, QR access, and Gemini AI concierge for Vijayawada.",
+  "requestFramePermissions": ["camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

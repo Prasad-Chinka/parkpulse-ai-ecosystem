@@ -1,0 +1,302 @@
+@import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Neon City Dark Palette (Default) */
+    --bg-charcoal: #101828;
+    --bg-deep: #0B1020;
+    --neon-purple: #7C3AED;
+    --electric-violet: #9333EA;
+    --hot-pink: #EC4899;
+    --neon-cyan: #06B6D4;
+    --soft-white: #F9FAFB;
+    --muted-text: #A7B0C0;
+    --success-green: #22C55E;
+    --warning-amber: #F59E0B;
+    --error-red: #EF4444;
+
+    --body-bg: #101828;
+    --text-primary: #F9FAFB;
+    --text-secondary: #A7B0C0;
+    --card-bg: rgba(16, 24, 40, 0.72);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --nav-bg: rgba(11, 16, 32, 0.85);
+  }
+
+  /* Professional Light Theme Switcher */
+  .theme-light {
+    --body-bg: #F8FAFC;
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --card-bg: rgba(255, 255, 255, 0.94);
+    --card-border: #E2E8F0;
+    --nav-bg: rgba(255, 255, 255, 0.92);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--body-bg);
+    color: var(--text-primary);
+    overflow-x: hidden;
+    min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  body:not(.theme-light) {
+    background-image: 
+      radial-gradient(circle at 15% 10%, rgba(124, 58, 237, 0.15) 0%, transparent 45%),
+      radial-gradient(circle at 85% 20%, rgba(6, 182, 212, 0.12) 0%, transparent 40%),
+      radial-gradient(circle at 50% 85%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+      #101828;
+    background-attachment: fixed;
+  }
+
+  body.theme-light {
+    background-image: 
+      radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.05) 0%, transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(124, 58, 237, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 50% 90%, rgba(226, 232, 240, 0.6) 0%, transparent 50%),
+      #F8FAFC;
+    background-attachment: fixed;
+  }
+}
+
+/* Neon City Glassmorphism Utilities */
+.glass-panel {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+}
+
+.glass-nav {
+  background: var(--nav-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--card-border);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 58, 237, 0.5);
+  box-shadow: 0 12px 30px -4px rgba(124, 58, 237, 0.25), 0 0 15px rgba(6, 182, 212, 0.2);
+}
+
+.theme-light .glass-card-hover:hover {
+  border-color: #2563EB;
+  box-shadow: 0 12px 24px -4px rgba(37, 99, 235, 0.12);
+}
+
+/* Neon Glows & Borders */
+.neon-glow-purple {
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.4);
+}
+
+.neon-glow-cyan {
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+}
+
+.neon-glow-pink {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+}
+
+.neon-border-purple {
+  border: 1px solid rgba(124, 58, 237, 0.6);
+  box-shadow: 0 0 15px rgba(124, 58, 237, 0.25);
+}
+
+.neon-border-cyan {
+  border: 1px solid rgba(6, 182, 212, 0.6);
+  box-shadow: 0 0 15px rgba(6, 182, 212, 0.25);
+}
+
+.neon-border-pink {
+  border: 1px solid rgba(236, 72, 153, 0.6);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.25);
+}
+
+/* Gradient Buttons */
+.btn-neon-purple {
+  background: linear-gradient(135deg, #7C3AED 0%, #9333EA 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px -1px rgba(124, 58, 237, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-neon-purple:hover {
+  background: linear-gradient(135deg, #6D28D9 0%, #7E22CE 100%);
+  box-shadow: 0 6px 22px rgba(124, 58, 237, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-neon-gradient {
+  background: linear-gradient(135deg, #7C3AED 0%, #06B6D4 100%);
+  color: #FFFFFF;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 18px rgba(124, 58, 237, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-neon-gradient:hover {
+  box-shadow: 0 6px 25px rgba(6, 182, 212, 0.5), 0 0 15px rgba(124, 58, 237, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-neon-cyan {
+  background: linear-gradient(135deg, #06B6D4 0%, #0891B2 100%);
+  color: #0B1020;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-neon-cyan:hover {
+  box-shadow: 0 6px 22px rgba(6, 182, 212, 0.6);
+  transform: translateY(-1px);
+}
+
+.btn-glass-ghost {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  border: 1px solid var(--card-border);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-glass-ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(124, 58, 237, 0.4);
+  color: #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.theme-light .btn-glass-ghost {
+  background: #FFFFFF;
+  color: #0F172A;
+  border-color: #E2E8F0;
+}
+
+.theme-light .btn-glass-ghost:hover {
+  background: #F1F5F9;
+  border-color: #2563EB;
+  color: #2563EB;
+}
+
+/* Glass Inputs */
+.glass-input {
+  background: rgba(16, 24, 40, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #F9FAFB;
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  border-color: #7C3AED;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.25);
+  outline: none;
+}
+
+.theme-light .glass-input {
+  background: #FFFFFF;
+  border-color: #CBD5E1;
+  color: #0F172A;
+}
+
+.theme-light .glass-input:focus {
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(11, 16, 32, 0.8);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.4);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(6, 182, 212, 0.7);
+}
+
+.theme-light ::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+.theme-light ::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+}
+
+.theme-light ::-webkit-scrollbar-thumb:hover {
+  background: #2563EB;
+}
+
+/* Typing indicator dots */
+@keyframes typingDots {
+  0%, 20% { opacity: 0.2; transform: translateY(0); }
+  50% { opacity: 1; transform: translateY(-3px); }
+  100% { opacity: 0.2; transform: translateY(0); }
+}
+
+.typing-dot-1 {
+  animation: typingDots 1.4s infinite ease-in-out;
+}
+.typing-dot-2 {
+  animation: typingDots 1.4s infinite ease-in-out 0.2s;
+}
+.typing-dot-3 {
+  animation: typingDots 1.4s infinite ease-in-out 0.4s;
+}
+
+/* Leaflet Map Custom Styling */
+.leaflet-container {
+  font-family: var(--font-sans) !important;
+  border-radius: 0.75rem;
+  z-index: 10;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(16, 24, 40, 0.95) !important;
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(124, 58, 237, 0.4) !important;
+  color: #F9FAFB !important;
+  border-radius: 0.75rem !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5) !important;
+}
+
+.theme-light .leaflet-popup-content-wrapper {
+  background: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(16, 24, 40, 0.95) !important;
+}
+
+.theme-light .leaflet-popup-tip {
+  background: #FFFFFF !important;
+}
